@@ -1,0 +1,34 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - python --version
+      - pip --version
+
+  pre_build:
+    commands:
+      - echo "Building Lambda deployment package..."
+      - echo "Target S3 bucket:" $ARTIFACTS_BUCKET
+
+  build:
+    commands:
+      - mkdir -p dist
+      - cp lambda_app/lambda_function.py dist/
+      - cd dist && zip -r lambda_function.zip . && cd -
+      - echo "Uploading Lambda package to S3..."
+      - VERSION_ID=$(aws s3api put-object --bucket $ARTIFACTS_BUCKET --key lambda/lambda_function.zip --body dist/lambda_function.zip --query VersionId --output text)
+      - echo "VERSION_ID=$VERSION_ID" | tee env.properties
+      - aws s3 cp env.properties s3://$ARTIFACTS_BUCKET/lambda/env.properties
+
+  post_build:
+    commands:
+      - echo "Lambda package deployed successfully with VersionId:" $VERSION_ID
+      - rm -rf dist/
+
+artifacts:
+  files:
+    - env.properties
+  discard-paths: yes

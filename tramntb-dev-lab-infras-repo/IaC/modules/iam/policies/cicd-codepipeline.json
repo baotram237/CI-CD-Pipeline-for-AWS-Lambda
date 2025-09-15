@@ -1,0 +1,63 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "S3ArtifactAccess",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "s3:GetBucketVersioning",
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::${artifact_bucket}/*"
+      ]
+    },
+    {
+      "Sid": "CodeBuildAccess",
+      "Effect": "Allow",
+      "Action": [
+        "codebuild:StartBuild",
+        "codebuild:BatchGetBuilds"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "PassRoleToCodeBuild",
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": [
+        "arn:aws:iam::${account_id}:role/CodeBuildServiceRole"
+      ]
+    },
+    {
+      "Sid": "CloudWatchLogs",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "CodeCommitAccess",
+      "Effect": "Allow",
+      "Action": [
+        "codecommit:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "StartPipelineExecution",
+      "Effect": "Allow",
+      "Action": [
+        "codepipeline:StartPipelineExecution"
+      ],
+      "Resource": [
+        "arn:aws:codepipeline:ap-southeast-1:${account_id}:${name_prefix}-infras-pipeline"
+      ]
+    }
+  ]
+}
