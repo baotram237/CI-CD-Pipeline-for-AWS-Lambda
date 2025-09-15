@@ -1,0 +1,11 @@
+variable "name_prefix" { type = string }
+# variable "role_cb_infra_arn"            { type = string }
+variable "roles_codebuild" { type = string }
+variable "env_file"                   { type = string }
+variable "backend_config"                   { type = string }
+# variable "buildspec_plan_infra_path"    { type = string }
+# variable "buildspec_apply_infra_path"   { type = string }
+# variable "buildspec_lambda_path"        { type = string }
+variable "artifact_bucket" { type = string }
+variable "tf_exec_role" { type = string }
+variable "artifacts_folder" { type = string }

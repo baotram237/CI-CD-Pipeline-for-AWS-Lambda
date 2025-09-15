@@ -1,0 +1,78 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [ 
+    {
+      "Sid": "TerraformS3StateAccess",
+      "Effect": "Allow",
+      "Action": [
+        "*"
+      ],
+      "Resource": [
+        "arn:aws:s3:::${tfstate_bucket}",
+        "arn:aws:s3:::${tfstate_bucket}/*",
+        "arn:aws:s3:::${artifact_bucket}",
+        "arn:aws:s3:::${artifact_bucket}/*"
+      ]
+    },
+    {
+      "Sid": "TerraformStateLocking",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:ap-northeast-1:${account_id}:table/${terraform_lock_table}"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "*"
+      ],
+      "Resource": [
+        "arn:aws:codecommit:ap-southeast-1:${account_id}:${infras_repo_name}",
+        "arn:aws:codecommit:ap-southeast-1:${account_id}:${app_repo_name}"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "IAM:GetPolicy",
+        "iam:GetRole",
+        "iam:ListRolePolicies",
+        "iam:ListAttachedRolePolicies",
+        "iam:GetPolicyVersion"
+      ],
+      "Resource": [
+        "*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "codebuild:BatchGetProjects",
+        "codebuild:ListProjects"
+      ],
+      "Resource": [
+        "*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+      "lambda:GetFunction",
+       "lambda:ListFunctions"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "*",
+      "Resource": "*"
+    }
+  ]
+}
