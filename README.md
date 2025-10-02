@@ -1,4 +1,4 @@
-# ci-cd-pipeline-lab
+# CI/CD Pipeline for AWS Lambda
 Serverless Lambda CI/CD with AWS CodePipeline, CodeBuild & Terraform
 
 This project demonstrates a CI/CD pipeline for managing AWS Lambda functions with infrastructure and application code separated into two repositories.
